@@ -72,4 +72,4 @@ if __name__ == '__main__':
     cleaned = dcp.load_clean_enwik8()
     length_cleaned = len(cleaned)
     print(f'Original length: {length_original:_}, cleaned_length: {length_cleaned:_}')
-    
+    print(f'Unique characters: {sorted(set(cleaned))}')
