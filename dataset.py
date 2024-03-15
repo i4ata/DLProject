@@ -42,6 +42,7 @@ class TorchDataset(Dataset):
         super().__init__()
         with open(txt_dir) as f:
             self.text = f.read()
+        self.text = self.text.replace('\n', ' ')
         self.sequence_length = sequence_length
         self.unique_characters = sorted(set(self.text))
         self.character_to_index = {character : i for i, character in enumerate(self.unique_characters)}
