@@ -3,7 +3,7 @@ import torch.nn as nn
 
 class AFTSimple(nn.Module):
     def __init__(self, e_dim: int, sequence_len: int):
-        super().__init__()
+        super(AFTSimple, self).__init__()
         self.e_dim = e_dim
         self.sequence_len = sequence_len
 
@@ -29,7 +29,7 @@ class AFTSimple(nn.Module):
 
 class AFTLocal(nn.Module):
     def __init__(self, e_dim: int, sequence_len: int, s: int):
-        super().__init__()
+        super(AFTLocal, self).__init__()
         self.e_dim = e_dim
         self.sequence_len = sequence_len # T
         self.s = s # window size
@@ -100,8 +100,8 @@ if __name__ == '__main__':
     x = torch.rand(batch_size, sequence_len, e_dim)
 
     try:
-        # y = aft_simple(x)
-        y = aft_local(x)
+        y = aft_simple(x)
+        # y = aft_local(x)
         print(f"Output / shape: {y} \n {y.shape}\n"
               f"Output produced successfully.")
     except Exception as e:
