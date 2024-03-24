@@ -15,10 +15,13 @@ class AFTSimple(nn.Module):
 
         self.sigmoid = nn.Sigmoid()
 
-    def forward(self, x):
-        Q = self.W_q(x)
-        K = self.W_k(x)
-        V = self.W_v(x)
+    def forward(self, q: torch.Tensor, k: torch.Tensor = None, v: torch.Tensor = None):
+        if None in [k, v]:  # we have an encoder/decoder-only architecture - singular input
+            k = q
+            v = q
+        Q = self.W_q(q)
+        K = self.W_k(k)
+        V = self.W_v(v)
 
         weights = torch.softmax(K, dim=1) # gets the "weights" for the weighted sum
         weighted_context = torch.sum(weights * V, dim=1).sum(dim=1, keepdim=True) # weighted sum
@@ -41,12 +44,15 @@ class AFTLocal(nn.Module):
         self.position_biases = nn.Parameter(torch.randn(self.s * 2 + 1, self.e_dim))
         self.sigmoid = nn.Sigmoid()
 
-    def forward(self, x):
-        Q = self.W_q(x)
-        K = self.W_k(x)
-        V = self.W_v(x)
+    def forward(self, q: torch.Tensor, k: torch.Tensor = None, v: torch.Tensor = None):
+        if None in [k, v]: # we have an encoder/decoder-only architecture - singular input
+            k = q
+            v = q
+        Q = self.W_q(q)
+        K = self.W_k(k)
+        V = self.W_v(v)
 
-        batch_size, seq_len, e_dim = x.size()
+        batch_size, seq_len, e_dim = q.size()
         context = torch.zeros_like(Q)
 
         full_mask = self.generate_full_mask(seq_len, self.s)
@@ -100,8 +106,8 @@ if __name__ == '__main__':
     x = torch.rand(batch_size, sequence_len, e_dim)
 
     try:
-        y = aft_simple(x)
-        # y = aft_local(x)
+        # y = aft_simple(x)
+        y = aft_local(x)
         print(f"Output / shape: {y} \n {y.shape}\n"
               f"Output produced successfully.")
     except Exception as e:
