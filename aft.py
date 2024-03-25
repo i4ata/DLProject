@@ -107,8 +107,8 @@ if __name__ == '__main__':
     x = torch.rand(batch_size, sequence_len, e_dim)
 
     try:
-        y = aft_simple(x)
-        # y = aft_local(x)
+        # y = aft_simple(x)
+        y = aft_local(x)
         print(f"Output / shape: {y} \n {y.shape}\n"
               f"Output produced successfully.")
     except Exception as e:
