@@ -91,7 +91,7 @@ class AFTLocal(nn.Module):
     def generate_full_mask(seq_len, window_size):
         indices = torch.arange(seq_len).unsqueeze(0)
         abs_diff = torch.abs(indices - indices.T)
-        mask = abs_diff <= window_size
+        mask = abs_diff < window_size
         return mask
 
 
