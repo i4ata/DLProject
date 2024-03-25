@@ -5,7 +5,7 @@ class AFTSimple(nn.Module):
     def __init__(self, e_dim: int, sequence_len: int):
         super(AFTSimple, self).__init__()
         self.e_dim = e_dim
-        self.sequence_len = sequence_len
+        self.sequence_len = sequence_len # T
 
         # a separate variable for the dimensions of the query, key, and value can be used later,
         # but I decided to keep it simple for now
@@ -23,9 +23,10 @@ class AFTSimple(nn.Module):
         K = self.W_k(k)
         V = self.W_v(v)
 
-        weights = torch.softmax(K, dim=1) # gets the "weights" for the weighted sum
-        weighted_context = torch.sum(weights * V, dim=1).sum(dim=1, keepdim=True) # weighted sum
+        weights = torch.softmax(K, dim=1)
+        weighted_context = torch.einsum('bse,bsd->bsd', weights, V)
         Q = self.sigmoid(Q)
+
         Y = Q * weighted_context
 
         return Y
@@ -97,7 +98,7 @@ class AFTLocal(nn.Module):
 
 if __name__ == '__main__':
     e_dim = 64
-    sequence_len = 32
+    sequence_len = 512
     s = 5
     batch_size = 32
 
@@ -106,8 +107,8 @@ if __name__ == '__main__':
     x = torch.rand(batch_size, sequence_len, e_dim)
 
     try:
-        # y = aft_simple(x)
-        y = aft_local(x)
+        y = aft_simple(x)
+        # y = aft_local(x)
         print(f"Output / shape: {y} \n {y.shape}\n"
               f"Output produced successfully.")
     except Exception as e:
