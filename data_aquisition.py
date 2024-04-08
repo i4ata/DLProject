@@ -31,7 +31,9 @@ class DataCleaningPipeline:
         substrings_to_remove = (
             '&quot;', '&lt;', '&gt', r'http\S+', '&amp;nbsp;', '&amp;'
         )
+        
         allowed_characters = r"[^a-z0-9 ]"
+
         with open(path, 'w', encoding='utf-8') as f:
             for line in tqdm(self.raw_text.split('\n')):
 

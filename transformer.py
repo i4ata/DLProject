@@ -24,17 +24,17 @@ class FF(nn.Module):
             nn.Linear(hid_dim, e_dim),
         )
 
-    def forward(self, x):
+    def forward(self, x: torch.Tensor):
         return self.ff(x)
-
 
 class DecoderBlock(nn.Module):
     def __init__(self,
                  e_dim: int,
                  hid_dim: int,
-                 dropout_rates: Tuple[float, float] = (0.1, 0.1)):
+                 dropout_rates: Tuple[float, float] = (0.1, 0.1),
+                 attention: bool = True):
         super().__init__()
-        self.atf = AFTLocal(...)  # gotta finish this one
+        self.attention = AFTLocal(...)  # gotta finish this one
 
         self.dropout_1 = nn.Dropout(dropout_rates[0])
         self.norm = nn.LayerNorm(e_dim)
@@ -42,20 +42,17 @@ class DecoderBlock(nn.Module):
         self.ff = FF(e_dim, hid_dim)
         self.dropout_2 = nn.Dropout(dropout_rates[1])
 
-    def forward(self, x: torch.Tensor, pos_encod: torch.Tensor, training=True):
+    def forward(self, x: torch.Tensor, pos_encod: torch.Tensor):
+        
         embedding = x + pos_encod
 
-        attn_out = self.atf(embedding, embedding, embedding)  # apply attention to the combined embedding
-        attn_out = self.dropout_1(attn_out) if training else attn_out # apply dropout
-        attn_out = self.norm(attn_out + embedding) # add residual connection and normalize
+        # attention -> dropout -> residual connection -> layer normalization
+        attn_out = self.norm(self.dropout_1(self.atf(embedding, embedding, embedding)) + embedding)
 
-        ff_out = self.ff(attn_out)
-
-        ff_out = self.dropout_2(ff_out) if training else ff_out # apply dropout, add residual connection, then normalize
-        ff_out = self.norm(ff_out + attn_out)
+        # mlp -> dropout -> residual connection -> layer normalization
+        ff_out = self.norm(self.dropout_1(self.ff(attn_out)) + attn_out)
 
         return ff_out
-
 
 class DecoderStack(nn.Module):
     def __init__(self,
@@ -64,8 +61,7 @@ class DecoderStack(nn.Module):
                  hid_dim: int,
                  vocab_size: int,
                  max_sequence_len: int,
-                 dropout_rates: Tuple[float] = (0.1, 0.1),
-                 training_mode: bool = True):
+                 dropout_rates: Tuple[float] = (0.1, 0.1)):
         super(DecoderStack, self).__init__()
         self.layers = layers
         self.e_dim = e_dim
@@ -83,23 +79,17 @@ class DecoderStack(nn.Module):
             for _ in range(layers)
         ])
 
-        self.training_mode = training_mode
-
-    def forward(self, x):
+    def forward(self, x: torch.Tensor):
         sequence_len = x.shape[1]
         position_indices = torch.arange(sequence_len).expand((x.shape[0], -1))
 
         token_embeddings = self.token_embedding(x) * self.scale_factor
         position_embeddings = self.position_embedding(position_indices) * self.scale_factor
 
-        if self.training_mode: # apply dropout only during training
-            token_embeddings = self.embedding_dropout(token_embeddings)
-            position_embeddings = self.embedding_dropout(position_embeddings)
-
-        decoder_output = token_embeddings + position_embeddings
+        decoder_output = self.embedding_dropout(token_embeddings) + self.embedding_dropout(position_embeddings)
 
         for layer in self.decoder_layers:
-            decoder_output = layer(decoder_output, position_embeddings, training=self.training_mode)
+            decoder_output = layer(decoder_output, position_embeddings)
 
         return decoder_output
 
@@ -111,8 +101,7 @@ class DecoderOnlyAFT(nn.Module):
                  hid_dim: int,
                  vocab_size: int,
                  max_sequence_len: int,
-                 dropout_rates: Tuple[float] = (0.1, 0.1),
-                 training_mode: bool = True):
+                 dropout_rates: Tuple[float] = (0.1, 0.1)):
         super(DecoderOnlyAFT, self).__init__()
 
         self.max_sequence_len = max_sequence_len
@@ -129,10 +118,8 @@ class DecoderOnlyAFT(nn.Module):
 
         self.project_to_vocab = nn.Linear(e_dim, vocab_size, bias=False)
 
-        self.training_mode = training_mode
-
-    def forward(self, x):
-        dec_outputs = self.decoder_stack(x, training=self.training_mode)
+    def forward(self, x: torch.Tensor):
+        dec_outputs = self.decoder_stack(x)
         return dec_outputs
 
     def compute_loss(self, x_in: torch.Tensor, x_out: torch.Tensor, seg_len=None):
