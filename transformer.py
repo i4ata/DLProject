@@ -123,7 +123,43 @@ class DecoderOnlyAFT(nn.Module):
         return dec_outputs
 
     def compute_loss(self, x_in: torch.Tensor, x_out: torch.Tensor, seg_len=None):
-        pass
+        seg_len = seg_len or self.max_sequence_len
 
-    def infer(self, x: torch.Tensor):
-        pass
+        n_segs = (self.max_sequence_len + seg_len - 1) // seg_len # calculate the number of segments needed to cover the entire sequence
+
+        seq_loss = 0.0
+        decoder_out = self.forward(x_in, training=True)
+
+        for n_seg in range(n_segs):
+            seg_start, seg_end = n_seg * seg_len, min((n_seg + 1) * seg_len, self.max_sequence_len)
+
+            seg_labels = x_out[:, seg_start:seg_end] # get the ground-truth labels for the current segment
+            seg_out = decoder_out[:, seg_start:seg_end, :]
+            logits = self.project_to_vocab(seg_out)
+            
+            seg_loss = self.loss_fn(logits.transpose(1, 2), seg_labels).sum()
+            seq_loss += seg_loss
+
+        return seq_loss # should be devided by batch size in training
+    
+    def infer(self, x: torch.Tensor, candidates_to_consider=1):
+        infer_seqs = [x[:, :1]]  # start with the first token in every sequence of the batch
+
+        for step in range(1, self.max_sequence_len):
+            tmp_inputs = torch.cat(infer_seqs, dim=1) # concatenate the tokens from the previous steps
+            
+            with torch.no_grad():
+                dec_out = self.forward(tmp_inputs, training=False)
+                logits = self.project_to_vocab(dec_out[:, step:step+1, :])
+
+            if candidates_to_consider == 1:
+                temp_argmax = logits.argmax(dim=-1) # greedy decoding
+            else:
+                temp_prob = nn.functional.softmax(logits, dim=-1) 
+                temp_top_k = torch.topk(temp_prob, k=candidates_to_consider, dim=-1) # get the top k candidates for next token
+                temp_sample = torch.multinomial(temp_top_k.values.squeeze(-1), 1) # sample from the top k candidates
+                temp_argmax = torch.gather(temp_top_k.indices, -1, temp_sample) 
+
+            infer_seqs.append(temp_argmax) # append the next tokens to their corresponding sequences
+
+        return torch.cat(infer_seqs, dim=1)
