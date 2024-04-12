@@ -31,8 +31,7 @@ class DecoderBlock(nn.Module):
     def __init__(self,
                  e_dim: int,
                  hid_dim: int,
-                 dropout_rates: Tuple[float, float] = (0.1, 0.1),
-                 attention: bool = True):
+                 dropout_rates: Tuple[float, float] = (0.1, 0.1)):
         super().__init__()
         self.attention = AFTLocal(...)  # gotta finish this one
 
