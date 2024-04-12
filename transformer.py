@@ -33,7 +33,7 @@ class DecoderBlock(nn.Module):
                  hid_dim: int,
                  dropout_rates: Tuple[float, float] = (0.1, 0.1)):
         super().__init__()
-        self.attention = AFTLocal(...)  # gotta finish this one
+        self.aft = AFTLocal(...)  # gotta finish this one
 
         self.dropout_1 = nn.Dropout(dropout_rates[0])
         self.norm = nn.LayerNorm(e_dim)
@@ -46,7 +46,7 @@ class DecoderBlock(nn.Module):
         embedding = x + pos_encod
 
         # attention -> dropout -> residual connection -> layer normalization
-        attn_out = self.norm(self.dropout_1(self.atf(embedding, embedding, embedding)) + embedding)
+        attn_out = self.norm(self.dropout_1(self.aft(embedding, embedding, embedding)) + embedding)
 
         # mlp -> dropout -> residual connection -> layer normalization
         ff_out = self.norm(self.dropout_1(self.ff(attn_out)) + attn_out)
