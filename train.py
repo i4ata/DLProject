@@ -10,8 +10,8 @@ if __name__ == '__main__':
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     model = DecoderOnlyAFT(
         layers=12,
-        e_dim=512,
-        hid_dim=512,
+        e_dim=256,
+        hid_dim=256,
         vocab_size=37,
         sequence_len=1024
     ).to(device)
@@ -19,11 +19,12 @@ if __name__ == '__main__':
     enwik.split()
     enwik.get_dataloaders(batch_size=128)
     train_dataloader, val_dataloader = enwik.train_dataloader, enwik.val_dataloader
-
+    print(f'Batches in train_dataloder: {len(train_dataloader)}')
+    print(f'Batches in val_dataloder: {len(val_dataloader)}')
     optimizer = torch.optim.SGD(params=model.parameters(), lr=1e-3, weight_decay=.5)
     loss_fn = nn.CrossEntropyLoss()
 
-    for epoch in tqdm(range(100)):
+    for epoch in range(100):
 
         train_loss, val_loss = 0, 0
 
@@ -51,4 +52,5 @@ if __name__ == '__main__':
 
             val_loss += loss.item()
 
+        train_loss, val_loss = train_loss / len(train_dataloader), val_loss / len(val_dataloader)
         print(f'{epoch}: Train loss: {train_loss :.3}, Val loss: {val_loss :.3}')
