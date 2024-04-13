@@ -1,0 +1,55 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) 2023.01   2) StdEnv
+Batches in train_dataloder: 332
+Batches in val_dataloder: 42
+  0%|          | 0/100 [00:00<?, ?it/s]  1%|          | 1/100 [05:15<8:41:22, 315.99s/it]Saving model
+0: Train loss: 3.41, Train acc: 12.9, Val loss: 3.19, Val acc: 21.2
+  2%|▏         | 2/100 [10:35<8:39:13, 317.89s/it]Saving model
+1: Train loss: 3.16, Train acc: 20.9, Val loss: 3.13, Val acc: 21.2
+  3%|▎         | 3/100 [15:56<8:36:42, 319.62s/it]2: Train loss: 3.13, Train acc: 20.9, Val loss: 3.13, Val acc: 21.2
+  4%|▍         | 4/100 [21:04<8:23:56, 314.96s/it]3: Train loss: 3.14, Train acc: 20.9, Val loss: 3.15, Val acc: 21.2
+  4%|▍         | 4/100 [26:24<10:33:47, 396.12s/it]
+Model stopped early due to risk of overfitting
+3.1304398207437423 20.404761904761905
+
+###############################################################################
+Hábrók Cluster
+Job 8152424 for user s4362675
+Finished at: Sat Apr 13 20:40:39 CEST 2024
+
+Job details:
+============
+
+Job ID              : 8152424
+Name                : aft
+User                : s4362675
+Partition           : gpushort
+Nodes               : v100gpu34
+Number of Nodes     : 1
+Cores               : 8
+Number of Tasks     : 1
+State               : RUNNING
+Submit              : 2024-04-13T20:13:09
+Start               : 2024-04-13T20:13:10
+End                 : --
+Reserved walltime   : 01:00:00
+Used walltime       : 00:27:29
+Used CPU time       : --
+% User (Computation): --
+% System (I/O)      : --
+Mem reserved        : 8000M
+Max Mem (Node/step) : 0.00  (Node unknown, N/A)
+Full Max Mem usage  : 0.00  (Until last completed step)
+Total Disk Read     : 0.00  (Until last completed step)
+Total Disk Write    : 0.00  (Until last completed step)
+
+Acknowledgements:
+=================
+
+Please see this page for information about acknowledging Hábrók in your publications:
+
+https://wiki.hpc.rug.nl/habrok/introduction/scientific_output
+
+################################################################################
