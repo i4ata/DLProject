@@ -7,7 +7,7 @@ from typing import Tuple
 class EnWik8:
     """Main class for the dataset"""
 
-    def __init__(self, txt_dir: str = 'data/enwik8_clean.txt', sequence_length: int = 1024, dataset_fraction: float = .001) -> None:
+    def __init__(self, txt_dir: str = 'data/enwik8_clean.txt', sequence_length: int = 1024, dataset_fraction: float = .01) -> None:
         dataset = TorchDataset(txt_dir=txt_dir, sequence_length=sequence_length)
         indices = torch.randperm(len(dataset))[:int(dataset_fraction * len(dataset))]
         self.dataset = Subset(dataset=dataset, indices=indices)

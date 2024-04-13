@@ -8,7 +8,7 @@ To do and test:
 """
 
 from aft import AFTLocal, AFTSimple
-from typing import Tuple
+from typing import Tuple, Literal
 
 import torch
 import torch.nn as nn
@@ -34,10 +34,14 @@ class DecoderBlock(nn.Module):
                  e_dim: int,
                  hid_dim: int,
                  sequence_len: int,
-                 dropout_rates: Tuple[float, float] = (0.1, 0.1)):
+                 dropout_rates: Tuple[float, float] = (0.1, 0.1),
+                 aft: Literal['simple', 'local'] = 'simple'):
         super().__init__()
         # self.aft = AFTLocal(e_dim=e_dim, sequence_len=sequence_len, s=BEST_WINDOW_SIZE)
-        self.aft = AFTSimple(e_dim=e_dim, sequence_len=sequence_len)
+        if aft == 'simple':
+            self.aft = AFTSimple(e_dim=e_dim, sequence_len=sequence_len)
+        else:
+            self.aft = AFTLocal(e_dim=e_dim, sequence_len=sequence_len, s=BEST_WINDOW_SIZE)
 
 
         self.dropout_1 = nn.Dropout(dropout_rates[0])
@@ -65,7 +69,8 @@ class DecoderStack(nn.Module):
                  hid_dim: int,
                  vocab_size: int,
                  sequence_len: int,
-                 dropout_rates: Tuple[float] = (0.1, 0.1)):
+                 dropout_rates: Tuple[float] = (0.1, 0.1),
+                 aft: Literal['simple', 'local'] = 'simple'):
         super(DecoderStack, self).__init__()
         self.layers = layers
         self.e_dim = e_dim
@@ -79,7 +84,7 @@ class DecoderStack(nn.Module):
         self.embedding_dropout = nn.Dropout(dropout_rates[0])
 
         self.decoder_layers = nn.ModuleList([  # makes the stack of decoder layers
-            DecoderBlock(e_dim, hid_dim, (dropout_rates[0], dropout_rates[1]))
+            DecoderBlock(e_dim, hid_dim, dropout_rates=(dropout_rates[0], dropout_rates[1]), aft=aft)
             for _ in range(layers)
         ])
 
@@ -103,7 +108,8 @@ class DecoderOnlyAFT(nn.Module):
                  hid_dim: int,
                  vocab_size: int,
                  sequence_len: int,
-                 dropout_rates: Tuple[float] = (0.1, 0.1)):
+                 dropout_rates: Tuple[float] = (0.1, 0.1),
+                 aft: Literal['simple', 'local'] = 'simple'):
         super(DecoderOnlyAFT, self).__init__()
 
         self.sequence_len = sequence_len
@@ -116,7 +122,8 @@ class DecoderOnlyAFT(nn.Module):
                                           hid_dim=hid_dim,
                                           vocab_size=vocab_size,
                                           sequence_len=sequence_len,
-                                          dropout_rates=dropout_rates)
+                                          dropout_rates=dropout_rates,
+                                          aft=aft)
 
         self.project_to_vocab = nn.Linear(e_dim, vocab_size, bias=False)
 
