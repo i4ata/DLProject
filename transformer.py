@@ -84,7 +84,7 @@ class DecoderStack(nn.Module):
         self.embedding_dropout = nn.Dropout(dropout_rates[0])
 
         self.decoder_layers = nn.ModuleList([  # makes the stack of decoder layers
-            DecoderBlock(e_dim, hid_dim, dropout_rates=(dropout_rates[0], dropout_rates[1]), aft=aft)
+            DecoderBlock(e_dim=e_dim, hid_dim=hid_dim, sequence_len=sequence_len, dropout_rates=(dropout_rates[0], dropout_rates[1]), aft=aft)
             for _ in range(layers)
         ])
 
