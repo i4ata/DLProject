@@ -13,7 +13,7 @@ class EnWik8:
     def split(self, lengths: Tuple[float, float, float] = (.8, .1, .1)) -> None:
         self.train_dataset, self.test_dataset, self.val_dataset = random_split(dataset=self.dataset, lengths=lengths)
 
-    def get_dataloaders(self, batch_size: int = 128, num_workers: int = 1):
+    def get_dataloaders(self, batch_size: int = 128, num_workers: int = 1) -> None:
         
         self.train_dataloader = DataLoader(
             dataset=self.train_dataset,
@@ -44,7 +44,7 @@ class TorchDataset(Dataset):
         self.sequence_length = sequence_length
         self.unique_characters = sorted(set(self.text))
         self.len_unique_characters = len(self.unique_characters)
-
+        
     def __len__(self) -> int:
         return len(self.text) - self.sequence_length
 
@@ -64,3 +64,4 @@ class TorchDataset(Dataset):
         target = torch.tensor(self.unique_characters.index(target))
 
         return context, target
+    
