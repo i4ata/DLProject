@@ -13,14 +13,14 @@ if __name__ == '__main__':
     torch.cuda.manual_seed(0)
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
     model = DecoderOnlyAFT(
-        layers=6,
-        e_dim=128,
-        hid_dim=128,
+        layers=3,
+        e_dim=64,
+        hid_dim=64,
         vocab_size=37,
-        sequence_len=256,
+        sequence_len=128,
         aft='local'
     ).to(device)
-    enwik = EnWik8(sequence_length=256, dataset_fraction=.005)
+    enwik = EnWik8(sequence_length=128, dataset_fraction=.005)
     enwik.split()
     enwik.get_dataloaders(batch_size=128)
     train_dataloader, val_dataloader = enwik.train_dataloader, enwik.val_dataloader

@@ -1,0 +1,79 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) 2023.01   2) StdEnv
+Batches in train_dataloder: 1656
+Batches in val_dataloder: 207
+Running on .5% of the dataset
+  0%|          | 0/100 [00:00<?, ?it/s]  1%|          | 1/100 [26:16<43:21:06, 1576.43s/it]Saving model
+0: Train loss: 3.23, Train acc: 20.0, Val loss: 3.18, Val acc: 21.8
+  2%|▏         | 2/100 [51:53<42:16:57, 1553.24s/it]1: Train loss: 3.23, Train acc: 21.1, Val loss: 3.21, Val acc: 21.8
+  3%|▎         | 3/100 [1:17:23<41:33:54, 1542.62s/it]Saving model
+2: Train loss: 3.13, Train acc: 21.1, Val loss: 3.06, Val acc: 21.8
+  4%|▍         | 4/100 [1:42:53<41:00:34, 1537.86s/it]Saving model
+3: Train loss: 3.05, Train acc: 21.1, Val loss: 3.03, Val acc: 21.8
+  5%|▌         | 5/100 [2:08:29<40:33:19, 1536.84s/it]Saving model
+4: Train loss: 3.04, Train acc: 21.1, Val loss: 3.03, Val acc: 21.8
+  6%|▌         | 6/100 [2:34:04<40:06:43, 1536.21s/it]Saving model
+5: Train loss: 3.04, Train acc: 21.1, Val loss: 3.03, Val acc: 21.8
+  7%|▋         | 7/100 [2:59:35<39:38:53, 1534.77s/it]Saving model
+6: Train loss: 3.04, Train acc: 21.1, Val loss: 3.03, Val acc: 21.8
+  8%|▊         | 8/100 [3:25:18<39:17:17, 1537.37s/it]Saving model
+7: Train loss: 3.04, Train acc: 21.1, Val loss: 3.03, Val acc: 21.8
+  9%|▉         | 9/100 [3:51:07<38:56:51, 1540.78s/it]Saving model
+8: Train loss: 3.04, Train acc: 21.1, Val loss: 3.03, Val acc: 21.8
+ 10%|█         | 10/100 [4:16:44<38:29:51, 1539.91s/it]Saving model
+9: Train loss: 3.04, Train acc: 21.1, Val loss: 3.03, Val acc: 21.8
+ 11%|█         | 11/100 [4:42:20<38:02:11, 1538.56s/it]Saving model
+10: Train loss: 3.04, Train acc: 21.1, Val loss: 3.03, Val acc: 21.8
+ 12%|█▏        | 12/100 [5:08:04<37:38:54, 1540.16s/it]Saving model
+11: Train loss: 3.04, Train acc: 21.1, Val loss: 3.03, Val acc: 21.8
+ 13%|█▎        | 13/100 [5:33:33<37:08:22, 1536.82s/it]12: Train loss: 3.04, Train acc: 21.1, Val loss: 3.03, Val acc: 21.8
+ 14%|█▍        | 14/100 [5:59:17<36:45:43, 1538.88s/it]Saving model
+13: Train loss: 3.04, Train acc: 21.1, Val loss: 3.03, Val acc: 21.8
+ 15%|█▌        | 15/100 [6:25:01<36:22:27, 1540.56s/it]14: Train loss: 3.04, Train acc: 21.1, Val loss: 3.03, Val acc: 21.8
+ 16%|█▌        | 16/100 [6:50:45<35:58:13, 1541.58s/it]15: Train loss: 3.04, Train acc: 21.1, Val loss: 3.03, Val acc: 21.8
+ 16%|█▌        | 16/100 [7:16:08<38:09:45, 1635.54s/it]
+Model stopped early due to risk of overfitting
+local
+3.0412005065143974 20.864734299516908
+
+###############################################################################
+Hábrók Cluster
+Job 8154336 for user s4362675
+Finished at: Sun Apr 14 17:20:20 CEST 2024
+
+Job details:
+============
+
+Job ID              : 8154336
+Name                : aft_local
+User                : s4362675
+Partition           : gpumedium
+Nodes               : v100gpu14
+Number of Nodes     : 1
+Cores               : 8
+Number of Tasks     : 1
+State               : RUNNING
+Submit              : 2024-04-14T09:58:45
+Start               : 2024-04-14T09:59:57
+End                 : --
+Reserved walltime   : 08:00:00
+Used walltime       : 07:20:23
+Used CPU time       : --
+% User (Computation): --
+% System (I/O)      : --
+Mem reserved        : 8000M
+Max Mem (Node/step) : 0.00  (Node unknown, N/A)
+Full Max Mem usage  : 0.00  (Until last completed step)
+Total Disk Read     : 0.00  (Until last completed step)
+Total Disk Write    : 0.00  (Until last completed step)
+
+Acknowledgements:
+=================
+
+Please see this page for information about acknowledging Hábrók in your publications:
+
+https://wiki.hpc.rug.nl/habrok/introduction/scientific_output
+
+################################################################################
