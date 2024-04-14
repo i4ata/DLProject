@@ -56,13 +56,13 @@ class AFTLocal(nn.Module):
         batch_size, seq_len, e_dim = q.size()
         context = torch.zeros_like(Q)
 
-        full_mask = self.generate_full_mask(seq_len, self.s)
+        full_mask = self.generate_full_mask(seq_len, self.s).to(q.device)
 
         for i in range(self.sequence_len): # for each position in the sequence
             start = max(0, i - self.s)
             end = min(seq_len, i + self.s + 1)
 
-            relative_positions = torch.arange(start, end) - i
+            relative_positions = torch.arange(start, end, device=q.device) - i
             bias_indices = relative_positions + self.s
 
             position_biases = self.position_biases[bias_indices]  # Shape: [window_size, e_dim]

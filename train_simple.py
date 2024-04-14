@@ -20,12 +20,13 @@ if __name__ == '__main__':
         sequence_len=1024,
         aft='simple'
     ).to(device)
-    enwik = EnWik8(sequence_length=1024)
+    enwik = EnWik8(sequence_length=1024, dataset_fraction=.005)
     enwik.split()
     enwik.get_dataloaders(batch_size=128)
     train_dataloader, val_dataloader = enwik.train_dataloader, enwik.val_dataloader
     print(f'Batches in train_dataloder: {len(train_dataloader)}')
     print(f'Batches in val_dataloder: {len(val_dataloader)}')
+    print(f'Running on .5% of the dataset')
     optimizer = torch.optim.SGD(params=model.parameters(), lr=1e-3, weight_decay=.5)
     loss_fn = nn.CrossEntropyLoss()
     early_stopper = EarlyStopper()

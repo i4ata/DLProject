@@ -1,0 +1,23 @@
+The following modules were not unloaded:
+  (Use "module --force purge" to unload all):
+
+  1) 2023.01   2) StdEnv
+Batches in train_dataloder: 3311
+Batches in val_dataloder: 414
+  0%|          | 0/100 [00:00<?, ?it/s]  1%|          | 1/100 [54:17<89:34:41, 3257.39s/it]Saving model
+0: Train loss: 3.04, Train acc: 21.1, Val loss: 3.17, Val acc: 21.7
+  2%|▏         | 2/100 [1:48:03<88:10:08, 3238.86s/it]Saving model
+1: Train loss: 3.09, Train acc: 21.1, Val loss: 2.97, Val acc: 21.7
+  3%|▎         | 3/100 [2:41:29<86:51:55, 3223.87s/it]Saving model
+2: Train loss: 2.97, Train acc: 21.1, Val loss: 2.96, Val acc: 21.7
+  4%|▍         | 4/100 [3:34:52<85:45:25, 3215.89s/it]Saving model
+3: Train loss: 2.97, Train acc: 21.1, Val loss: 2.96, Val acc: 21.7
+  5%|▌         | 5/100 [4:28:23<84:48:42, 3213.92s/it]Saving model
+4: Train loss: 2.97, Train acc: 21.1, Val loss: 2.96, Val acc: 21.7
+  6%|▌         | 6/100 [5:21:56<83:54:37, 3213.59s/it]Saving model
+5: Train loss: 2.97, Train acc: 21.1, Val loss: 2.96, Val acc: 21.7
+  7%|▋         | 7/100 [6:15:33<83:02:50, 3214.74s/it]6: Train loss: 2.97, Train acc: 21.1, Val loss: 2.96, Val acc: 21.7
+  8%|▊         | 8/100 [7:09:00<82:05:25, 3212.23s/it]Saving model
+7: Train loss: 2.97, Train acc: 21.1, Val loss: 2.96, Val acc: 21.7
+  9%|▉         | 9/100 [8:02:33<81:12:33, 3212.68s/it]8: Train loss: 2.97, Train acc: 21.1, Val loss: 2.96, Val acc: 21.7
+ 10%|█         | 10/100 [8:56:06<80:19:06, 3212.73s/it]9: Train loss: 2.97, Train acc: 21.1, Val loss: 2.96, Val acc: 21.7
