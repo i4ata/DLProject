@@ -21,3 +21,47 @@ Batches in val_dataloder: 414
 7: Train loss: 2.97, Train acc: 21.1, Val loss: 2.96, Val acc: 21.7
   9%|▉         | 9/100 [8:02:33<81:12:33, 3212.68s/it]8: Train loss: 2.97, Train acc: 21.1, Val loss: 2.96, Val acc: 21.7
  10%|█         | 10/100 [8:56:06<80:19:06, 3212.73s/it]9: Train loss: 2.97, Train acc: 21.1, Val loss: 2.96, Val acc: 21.7
+ 10%|█         | 10/100 [9:49:51<88:28:44, 3539.16s/it]
+Model stopped early due to risk of overfitting
+simple
+2.965071623452044 21.1280193236715
+
+###############################################################################
+Hábrók Cluster
+Job 8152608 for user s4362675
+Finished at: Sun Apr 14 09:00:57 CEST 2024
+
+Job details:
+============
+
+Job ID              : 8152608
+Name                : aft_simple
+User                : s4362675
+Partition           : gpumedium
+Nodes               : v100gpu23
+Number of Nodes     : 1
+Cores               : 8
+Number of Tasks     : 1
+State               : RUNNING
+Submit              : 2024-04-13T21:55:01
+Start               : 2024-04-13T23:04:48
+End                 : --
+Reserved walltime   : 12:00:00
+Used walltime       : 09:56:10
+Used CPU time       : --
+% User (Computation): --
+% System (I/O)      : --
+Mem reserved        : 8000M
+Max Mem (Node/step) : 0.00  (Node unknown, N/A)
+Full Max Mem usage  : 0.00  (Until last completed step)
+Total Disk Read     : 0.00  (Until last completed step)
+Total Disk Write    : 0.00  (Until last completed step)
+
+Acknowledgements:
+=================
+
+Please see this page for information about acknowledging Hábrók in your publications:
+
+https://wiki.hpc.rug.nl/habrok/introduction/scientific_output
+
+################################################################################
